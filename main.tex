@@ -1,0 +1,218 @@
+\documentclass[a4paper]{beamer}
+
+% \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{siunitx}
+\usepackage{tikz}
+\usepackage{wrapfig}
+\usepackage{ragged2e}
+\usetikzlibrary{calc,angles,quotes}
+\usetikzlibrary{arrows.meta}
+\usefonttheme[onlymath]{serif}
+\setbeamertemplate{navigation symbols}{}
+
+\input{plano-inclinado}
+\input{title}
+
+\newcommand{\tcm}{\ensuremath\text{\tiny CM}}
+\newcommand{\tcir}{\ensuremath\text{\tiny CIR}}
+
+\newcommand{\fr}{\ensuremath{\mathit{f\kern-0.12em r}}}
+\newcommand{\fre}{\ensuremath{\mathit{f\kern-0.05em r}\kern-0.05em_{e}}}
+
+\newcommand{\uveci}{\hat{\imath}}
+\newcommand{\uvecj}{\hat{\jmath}}
+
+\newcommand{\syscoord}[2]{
+      \begin{scope}[rotate around={#2:(#1)}]
+        
+        % Ejes y elementos vectoriales
+        \draw[-latex] (#1) -- ++(-.7,0) node[above right] {$x$};
+        \draw[-latex] (#1) -- ++(0,-.7) node[right] {$y$};
+        
+        \draw[-stealth] (#1) ++(-0.45,-0.1) arc (0:90:-0.35) 
+              node[midway,left] {$\vec{\tau}$};
+        
+        \draw (#1) circle(.1);
+        \filldraw (#1) circle(1pt) node[left] {$z$};
+
+        % Etiqueta del origen "O"
+        \node[right] at (#1) {O};
+
+      \end{scope}
+}
+
+
+\input{cilindro.tex}
+
+\begin{document}
+
+
+\frame{\titlepage}
+\begin{frame}
+	% \justifying
+
+	\frametitle{Situación}
+	Un cilindro homogéneo de radio $R = \qty{0.10}{\meter}$ y masa $M = \qty{2}{\kilo\gram}$ asciende rodando sin deslizar, por un plano inclinado un ángulo $\alpha = \qty{30}{\degree}$ con la horizontal.
+	\vspace{-2em}
+	\begin{wrapfigure}{r}{0.4\textwidth}
+		% \centering
+		\begin{tikzpicture}
+			\def\R{.4}
+			\planoInclinado[
+				show angle,
+				show projection,
+				show floor,
+				angle=\theta,
+				projection style=dashed,
+				floor style=thick,
+			]{4,0}{0,2}
+
+			\tramoRugoso[color=red, very thick]{.1}{.7}
+			\centroCirculoRampa{.4}{\R}{C1}
+			\draw (C1) circle (\R);
+			\atRampa{.4}
+			\node [below] at (PI-punto) {A};
+
+			\centroCirculoRampa{.7}{\R}{C1}
+			\draw (C1) circle (\R);
+			\atRampa{.7}
+			\node [below] at (PI-punto) {B};
+		\end{tikzpicture}
+		% \caption{}
+		\label{fig:}
+	\end{wrapfigure}
+	\begin{justify}
+		En todo momento se le aplica en el CM una fuerza horizontal, con el sentido indicado en la figura, de módulo constante $F = \qty{20}{\newton}$.
+		El cuerpo parte del reposo en la posición A, en el que la altura del CM es de $h_{\tcm_A}$ = \qty{1}{\meter}, respecto a la superficie horizontal indicada.
+		En el punto B el CM alcanza una altura de $\qty{3}{\meter}$, y a partir de ese punto el cuerpo se mueve en un tramo liso (el rozamiento puede considerarse despreciable).
+	\end{justify}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Problema}
+	Se pide
+	\begin{itemize}
+		\item Para cada tramo de la trayectoria, realizar el DCL para el cilindro, plantear las ecuaciones dinámicas de movimiento, indicando claramente el sistema de referencia y el sistema de coordenadas elegidos.
+		\item Calcular la aceleración angular y la del centro de masa del cilindro durante la subida en el tramo $\overline{AB}$ y la aceleración angular en el tramo liso.
+		\item Utilizando consideraciones energéticas, encontrar la velocidad del centro de masa del cilindro en un punto C de la trayectoria en el que la altura del centro de masa es de \qty{4}{\meter} respecto del plano horizontal indicado.
+	\end{itemize}
+
+
+\end{frame}
+
+
+\input{dinamica}
+
+
+
+\begin{frame}
+	% \frametitle{Consideraciones Energéticas}
+	% Como la fuerza de rozamiento es estática ya que solo actúa instantáneamente en el punto de contacto, no realiza trabajo.
+	\frametitle{Trabajo - Contribuciones de las fuerzas}
+	Analicemos qué fuerzas realizan trabajo
+	\begin{columns}
+		\column{0.5\textwidth}
+		\begin{figure}
+			\begin{tikzpicture}
+				\planoInclinado[order=topdown, show floor]{0,2.5}{4,0}
+				\def\R{1}
+
+				\centroCirculoRampa{0.3}{\R}{C1}
+				\dibujarCilindro[origen=C1]{1}
+				\draw [dashed] (C1) -- (C1 |- 0,0) node[below]{$h_{\text{\tiny CM}_A}$};
+
+				\centroCirculoRampa{0.85}{\R}{C2}
+				\dibujarCilindro[origen=C2,rozamiento=1,ejes=true]{1}
+				\draw [dashed] (C2) -- (C2 |- 0,0) node[below]{$h_{\text{\tiny CM}_C}$};
+			\end{tikzpicture}
+		\end{figure}
+		\column{0.5\textwidth}
+		% $$ \vec{F} = F\,(\cos(\alpha)\,\uveci + \sin(\alpha)\,\uvecj )\ \ \text{ y } \ \ m\,\vec{g} =  $$
+		$$ m\,\vec{g} = m\,g\,(\sin(\alpha) \uveci + \cos(\alpha) \uvecj) $$
+		$$ \vec{F} = F\,(\cos(\alpha)\,\uveci + \sin(\alpha)\,\uvecj )$$
+		$$ \vec{N} = N\, \uvecj \ \ \ \text{ y } \ \ \ \vec{\fr}_e = -\fre\, \uveci$$
+		\centering
+
+		Y además
+		$$ \mathrm{d}\vec{x} = \mathrm{d}x\,\uveci \implies \uveci \int_{x_0}^{x_f} \mathrm{d}x= \Delta x \, \uveci $$
+	\end{columns}
+
+	$$ W_{\vec{N}} = N\,\uvecj \cdot \Delta x\, \uveci  = 0$$
+	$$ W_{\vec{\fre}_e} = -\fre\,\uveci \cdot \Delta x\, \uveci  = 0$$
+	$$ W_{\vec{F}} =F\,(\cos(\alpha)\,\uveci + \sin(\alpha)\,\uvecj ) \cdot \Delta x \, \uveci $$
+	$$ W_{m\vec{g}} =m\,g\,(\sin(\alpha)\,\uveci + \cos(\alpha)\,\uvecj ) \cdot \Delta x \, \uveci $$
+\end{frame}
+
+\begin{frame}
+	\frametitle{Conservación de la Energía}
+	Planteamos los teoremas de conservación de la energía
+	$$ \Delta EC= EC_f - EC_o = WF_{NC} + WF_C $$
+	$$ \Delta EP = - WF_C $$
+	$$ \Delta EM = \Delta EC + \Delta EP = WF_{NC} $$
+
+	Como el cuerpo parte del reposo
+	$$ \Delta EC = EC_f $$
+
+	Y la única fuerza no conservativa que realiza trabajo es $\vec{F}$
+	$$ \Delta EM = EC_f + \Delta EP  = W_{\vec{F}}$$
+\end{frame}
+
+\begin{frame}
+	\frametitle{Conservación de la Energía}
+	\framesubtitle{Velocidad angular del CR}
+
+	Determinamos la velocidad angular $\omega$ en el instante en el que deja de haber rozamiento.
+	$$  \vec{v}_{\tcm} = \vec{v}_{\text{\tiny CIR}} + \vec{v}_{\tcm / \text{\tiny CIR}} = \vec{\omega} \times \vec{r}_{\tcm / \text{\tiny CIR}}$$
+	$$\left| \begin{matrix}
+			\uveci & \uvecj & \hat{k} \\
+			0      & 0      & \omega  \\
+			0      & -R     & 0
+		\end{matrix}\right| $$
+	$$ \vec{v}_\tcm = \omega\,R\, \uveci \implies \omega = \frac{v_\tcm}{R} $$
+
+	Y como se demostró en~\eqref{eq:torque_conservation}, $\gamma = 0 \implies \omega = \text{cte.}$ durante todo el tramo $\overline{BC}$.
+
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Conservación de la Energía}
+	Tomando las definiciones de $EC$ y $EP$
+	% $$ EC_f = \frac{1}{2}\,m\,v_{\tcm_f}^2 + \frac{1}{2}\, I_\tcm \,\omega^2 \ \ \text{y} \ \ \Delta EP = m\,g\,h_{\tcm_C} - m\,g\,h_{\tcm_A}  $$
+	$$ EC_f = \frac{1}{2}\,m\,v_{\tcm_f}^2 + \frac{1}{2}\, I_\tcm \,\omega^2 $$
+	$$\Delta EP = m\,g\,h_{\tcm_C} - m\,g\,h_{\tcm_A}  $$
+
+
+	Y sabiendo que
+
+	$$ \sin(\alpha) = \frac{h_{\tcm_C} - h_{\tcm_A}}{\Delta x} \implies \Delta x = \frac{h_{\tcm_C} - h_{\tcm_A}}{\sin(\alpha)}$$
+
+	\vspace{1em}
+	Desarrollamos la ecuación
+	% $$ \frac{1}{2}\,m\,v_{\tcm_f}^2 + \frac{1}{4}\,m\,R^2\,\left( \frac{v_{\tcm_f}}{R}\right)^2  + m\,g\,\left(h_{\tcm_C} - h_{\tcm_A} \right) = \Delta x \, F \cos(\alpha)$$
+	$$ \frac{1}{2}\,m\,v_{\tcm_f}^2 + \frac{1}{4}\,m\,R^2\,\left( \frac{v_{\tcm_f}}{R}\right)^2  + m\,g\,\left(h_{\tcm_C} - h_{\tcm_A} \right) = \frac{h_{\tcm_C} - h_{\tcm_A}}{\tan(\alpha)}F $$
+
+	$$ \frac{3}{4}\,m\,v_{\tcm_f}^2 = (F\, \cot(\alpha) - m\,g)\,\left(h_{\tcm_C} - h_{\tcm_A} \right) $$
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Conservación de la Energía}
+	Teniendo en cuenta los datos del ejercicio
+	$$ \begin{array}{c c c}
+			F = \qty{20}{\newton} & m = \qty{2}{\kilo\gram} & g = \qty[per-mode=fraction]{10}{\meter\per\second\squared} \\ \alpha = \qty{30}{\degree} & h_{\tcm_A} = \qty{1}{\meter} & h_{\tcm_C} = \qty{4}{\meter}
+		\end{array} $$
+
+	$$ v_{\tcm} = \sqrt{\frac{F\, \cot(\alpha) - m\,g}{3\,m}\,4\,\left(h_{\tcm_C} - h_{\tcm_A} \right)} $$
+	$$ v_{\tcm} = \sqrt{\frac{\qty{20}{\newton}\cdot \cot(\qty{30}{\degree}) - \qty{2}{\kilo\gram}\cdot\qty[per-mode=fraction]{10}{\meter\per\second\squared}}{3\cdot\qty{2}{\kilo\gram}}\cdot4\cdot\left(\qty{4}{\meter} - \qty{1}{\meter}\right)}$$
+
+	$$ v_{\tcm_C} \approx \qty[per-mode = fraction]{5.41}{\meter\per\second} $$
+	$$ \vec{v}_{\tcm_C} \approx \qty[per-mode = fraction]{5.41}{\meter\per\second} \, \uveci $$
+
+\end{frame}
+
+\end{document}

@@ -1,0 +1,107 @@
+\makeatletter
+
+% ============================================================
+% cilindro.tex
+%
+% Uso:
+%   \dibujarCilindro[opciones]{radio}
+%
+% Opciones:
+%   rozamiento=0|1       0: dibuja fr_e; 1: la oculta
+%   coordenadas=true|false
+%   ejes=true|false
+%   origen={(x,y)}
+%
+% Requiere:
+%   TikZ y la macro \syscoord definida en main.tex
+% ============================================================
+
+\pgfkeys{
+    /cilindro/.is family,
+    /cilindro,
+    rozamiento/.store in=\CI@rozamiento,
+    coordenadas/.store in=\CI@coordenadas,
+    ejes/.store in=\CI@ejes,
+    origen/.store in=\CI@origen
+}
+
+\newcommand{\dibujarCilindro}[2][]{%
+    \begingroup
+
+    % Valores predeterminados
+    \def\CI@rozamiento{0}%
+    \def\CI@coordenadas{false}%
+    \def\CI@ejes{false}%
+    \def\CI@origen{0,0}%
+
+    % Leer opciones
+    \pgfkeys{/cilindro/.cd,#1}%
+
+    \def\R{#2}%
+
+    % Centro del cilindro
+    \coordinate (O) at (\CI@origen);
+
+    % Círculo y centro de masa
+    \draw (O) circle (\R);
+    \fill (O) circle (0.05) node[right]{\tiny CM};
+
+    % Fuerzas en el centro
+    \draw[-Stealth,thick,olive]
+        (O) -- ++({-0.5*\R},0)
+        node[above]{$\vec{F}$};
+
+    \draw[-Stealth,thick]
+        (O) -- ++(0,{-0.5*\R})
+        node[right]{$m\vec{g}$};
+
+    % Referencias giradas respecto al centro
+    \begin{scope}[rotate around={-30:(O)}]
+
+        % Sistema de coordenadas opcional
+        \def\CI@true{true}%
+        \ifx\CI@coordenadas\CI@true
+            \pgfmathsetmacro{\CI@coordx}{1.25*\R}%
+            \pgfmathsetmacro{\CI@coordy}{1.25*\R}%
+            \coordinate (CI-syscoord)
+                at ($(O)+(\CI@coordx,\CI@coordy)$);
+            \syscoord{CI-syscoord}{0}%
+        \fi
+
+        % Ejes de referencia opcionales
+        \ifx\CI@ejes\CI@true
+            \draw[dashed]
+                ($(O)+({-1.25*\R},0)$)
+                -- ($(O)+({1.25*\R},0)$);
+
+            \draw[dashed]
+                ($(O)+(0,{-1.25*\R})$)
+                -- ($(O)+(0,{1.25*\R})$);
+
+            \draw
+                ($(O)+(0,{-\R})$)
+                -- ++({-0.75*\R},0)
+                -- ++({1.5*\R},0);
+        \fi
+
+        % Fuerza normal
+        \draw[-Stealth,thick,blue]
+            ($(O)+(0,{-\R})$)
+            -- ++(0,{0.5*\R})
+            node[midway,left]{$\vec{N}$};
+
+        % Fuerza de rozamiento
+        \def\CI@cero{0}%
+        \ifx\CI@rozamiento\CI@cero
+            \draw[-Stealth,thick,red]
+                ($(O)+(0,{-\R})$)
+                -- ++({0.5*\R},0)
+                node[midway,below]{$\vec{\fr}_e$};
+        \fi
+
+    \end{scope}
+
+    \endgroup
+}
+
+\makeatother

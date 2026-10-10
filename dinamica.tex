@@ -1,0 +1,165 @@
+%% Descomposicion tramo B
+\begin{frame}
+	\frametitle{DCL y Ecuaciones Dinámicas: (Tramo B)}
+	\begin{figure}
+		% \centering
+		\begin{tikzpicture}
+			\def\R{1.5}
+			\coordinate (O) at (0,0) ;
+
+
+			\draw (O) circle (\R);
+			\fill (O) circle(.05) node[right]{\tiny CM};
+
+			\draw[-Stealth, thick, olive] (O) -- ++ (-0.5 * \R,0) node [left]{$\vec{F}$};
+			\draw[-Stealth, thick] (O) -- ++ (0, -0.5 * \R) node [right]{$m\vec{g}$};
+			\begin{scope}[rotate around={-30:(O)}]
+				\syscoord{2.5,2.25}{0}
+
+				\draw [dashed] (O) ++ (-1.25 * \R,0) -- ++ (2 * 1.25 * \R,0);
+				\draw [dashed] (O) ++ (0,-1.25 * \R) -- ++ (0,2 * 1.25 * \R);
+				\draw (O) ++ (0,-\R) -- ++(-0.75*\R,0) -- ++ (1.5*\R,0);
+
+				\draw[-Stealth, thick, blue] (O) ++ (0,-\R) -- ++(0,0.5*\R) node[midway, left]{$\vec{N}$};
+			\end{scope}
+		\end{tikzpicture}
+		% \caption{}
+		% \label{fig:}
+	\end{figure}
+	$$ \begin{array}{l c r}
+
+			\sum{F_y} = m\,a_y &
+			\sum{F_x} = m\,a_x &
+			\sum{\vec{\tau}_{\text{\tiny CM}}} = \sum{\vec{r}_i \times \vec{F_i}} = I_{\text{\tiny CM}}\,\vec{\gamma}
+		\end{array} $$
+
+	$$ F\,\sin(\alpha) + m\,g\,\cos(\alpha) - N = 0 $$
+	$$ F\,\cos(\alpha) - m\,g\,\sin(\alpha) = m\,a_x $$
+	$$ \tau_c = \vec{0} \times m\,\vec{g} + \vec{0} \times \vec{F} + R\,\uvecj \times \vec{N} $$
+\end{frame}
+
+
+%%%% Punto B
+
+\begin{frame}
+	\frametitle{Cálculo de aceleración angular (Tramo B)}
+
+	Se observa en el DCL que todas las fuerzas tienen torque nulo, ya que están aplicadas sobre el CM o son paralelas a su vector posición.
+	% \vspace{.35cm}
+	\begin{columns}
+		\column{0.3 \textwidth}
+		\begin{figure}
+			\begin{tikzpicture}
+				\dibujarCilindro[rozamiento=1]{1.5}
+			\end{tikzpicture}
+		\end{figure}
+		\column{0.5 \textwidth}
+		$$ \tau_c = \vec{0} \times m\,\vec{g} + \vec{0} \times \vec{F} + R\,\uvecj \times \vec{N} $$
+		\begin{equation} \label{eq:torque_conservation}
+			\sum{\vec{\tau}} = \frac{\mathrm{d}\vec{L}}{\mathrm{d}t} = I_{\text{\tiny CM}} \,\vec{\gamma} = \vec{0}
+		\end{equation}
+		$$ \implies \gamma = 0 $$
+	\end{columns}
+	\vspace{.5cm}
+	Esto nos indica que a partir de este punto $\omega$ es constante.
+
+	\vspace{.4cm}
+	Si en cambio el cilindro asciende rodando sin deslizar, \textquestiondown hacia dónde debería apuntar $\vec{\fr}_e$?
+\end{frame}
+
+%% Descomposicion tramo A
+\begin{frame}
+	\frametitle{DCL y Ecuaciones Dinámicas: (Tramo A)}
+
+	\begin{columns}
+		\column{0.6\textwidth}
+		\begin{figure}
+			% \centering
+			\begin{tikzpicture}
+				\def\R{1.5}
+				\coordinate (O) at (0,0) ;
+
+
+				\draw (O) circle (\R);
+				\fill (O) circle(.05) node[right]{\tiny CM};
+
+				\draw[-Stealth, thick, olive] (O) -- ++ (-0.5 * \R,0) node [left]{$\vec{F}$};
+				\draw[-Stealth, thick] (O) -- ++ (0, -0.5 * \R) node [right]{$m\vec{g}$};
+				\begin{scope}[rotate around={-30:(O)}]
+					\syscoord{2,2}{0}
+
+					\draw [dashed] (O) ++ (-1.25 * \R,0) -- ++ (2 * 1.25 * \R,0);
+					\draw [dashed] (O) ++ (0,-1.25 * \R) -- ++ (0,2 * 1.25 * \R);
+					\draw (O) ++ (0,-\R) -- ++(-0.75*\R,0) -- ++ (1.5*\R,0);
+
+					\draw[-Stealth, thick, blue] (O) ++ (0,-\R) -- ++(0,0.5*\R) node[midway, left]{$\vec{N}$};
+					\draw[-Stealth, thick, red] (O) ++ (0,-\R) -- ++(0.5*\R,0) node[midway, above right]{$\vec{\fr}_e$};
+				\end{scope}
+			\end{tikzpicture}
+		\end{figure}
+
+		\column{0.5\textwidth}
+		$$\sum{F_y} = m\,a_y $$
+		$$\sum{F_x} = m\,a_x $$
+		$$\sum{\vec{\tau}_{\text{\tiny CM}}} = \sum{\vec{r}_i \times \vec{F_i}} = I_{\text{\tiny CM}}\,\vec{\gamma} $$
+	\end{columns}
+
+	$$ F\,\sin(\alpha) + m\,g\,\cos(\alpha) - N = 0 $$
+	$$ F\,\cos(\alpha) - m\,g\,\sin(\alpha) - \fre = m\,a_x $$
+	$$ \tau_c = \vec{0} \times m\,\vec{g} + \vec{0} \times \vec{F} + R\,\uvecj \times \vec{N} + R\,\uvecj \times \vec{\fre} $$
+
+	\vspace{1em}
+	Esta vez, con la contribución de $\vec{\fr}_e$, el torque deja de ser nulo.
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Campo de aceleraciones durante RSD (Tramo A)}
+	Dada la condición de rodadura sin deslizar, el CIR solo tiene aceleración normal, y obtenemos la aceleración del CM como
+	$$ \vec{a}_{\tcir} = \vec{\omega} \times (\vec{\omega} \times -\vec{r}_{\tcm/\tcir}) $$
+	Planteamos campo de aceleraciones
+	$$ \vec{a}_{\tcm} = \vec{a}_\tcir + \vec{a}_{\tcm/\tcir} = \vec{a}_{\tcir} + \vec{\omega} \times (\vec{\omega} \times \vec{r}_{\tcm/\tcir}) + \vec{\gamma} \times \vec{r}_{\tcm/\tcir} $$
+	% $$ \vec{a}_{\text{\tiny CM}} = \vec{r}_{\text{\tiny CM}/\text{\tiny CIR}} \times \vec{\gamma} \implies a_{\text{\tiny CM}_x} = \gamma\,R $$
+	$$ \vec{a}_{\text{\tiny CM}} = \vec{\gamma} \times \vec{r}_{\tcm/\tcir} $$
+	$$ = \left|\begin{matrix}
+			\uveci & \uvecj & \hat{k} \\
+			0      & 0      & \gamma  \\
+			0      & -R     & 0
+		\end{matrix}\right| $$
+	$$ = \gamma\,R $$
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Cálculo de aceleración angular y del CM (Tramo A)}
+	\begin{figure}
+		\begin{tikzpicture}
+			\dibujarCilindro{1.5}
+		\end{tikzpicture}
+	\end{figure}
+	De las ecuaciones dinámicas, despejamos $\fre$
+	% $$ I_{\text{\tiny CM}}\,\vec{\gamma} = R\,\uvecj \times -\fre \, \uveci = \fre\,R\,\hat{k} = \frac{1}{2}\,m\,R^2 \gamma\,\hat{k} \implies \fre = \frac{1}{2}\,m\,R\,\gamma$$
+	% \vspace{.15em}
+	$$ I_{\text{\tiny CM}}\,\vec{\gamma} = R\,\uvecj \times -\fre \, \uveci$$ $$ \implies  \fre\,R\,\hat{k} = \frac{1}{2}\,m\,R^2 \gamma\,\hat{k} $$
+	$$ \implies \fre = \frac{1}{2}\,m\,R\,\gamma$$
+	$$ \fre = F\,\cos(\alpha) - m\,g\,\sin(\alpha) - m\,a_{\text{\tiny CM}_x} $$
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Cálculo de aceleración angular y del CM (Tramo A)}
+	Datos:
+	$$ \begin{array}{c c c c c}
+			F = \qty{20}{\newton} & \alpha = \qty{30}{\degree} & m = \qty{2}{\kilo\gram} & R= \qty{0.10}{\meter} & g =\qty[per-mode=fraction]{10}{\meter\per\second\squared}
+		\end{array} $$
+	Reemplazando en la ecuación
+	$$ \frac{1}{2}\,m\,R\,\gamma = F\,\cos(\alpha) - m\,g\,\sin(\alpha) - m\,\gamma\,R  $$
+	% $$ \frac{1}{2}\,m\,R\,\gamma = F\,\cos(\alpha) - m\,g\,\sin(\alpha) - m\,\gamma\,R  $$
+	$$ \gamma = 2\,\frac{F\,\cos(\alpha) - m\,g\,\sin(\alpha)}{3\,m\,R} $$
+	% $$ \gamma = 2\,\frac{F\,\cos(\alpha) - m\,g\,\sin(\alpha)}{3\,m\,R} \approx \qty[per-mode = fraction]{24.4}{\per\second\squared}
+	% 	\implies a_{\text{\tiny CM}_x} \approx \qty[per-mode = fraction]{2.40}{\meter\per\second\squared} $$
+	$$ \gamma = 2\cdot\frac{\qty{20}{\newton}\cdot\cos(\qty{30}{\degree}) - \qty{2}{\kilo\gram}\cdot\qty{10}{\meter\per\second\squared}\cdot\sin(\qty{30}{\degree})}{3\cdot\qty{2}{\kilo\gram}\cdot\qty{0.10}{\meter}} \approx \qty{24.40}{\per\second\squared} $$
+	$$ \implies a_{\tcm} = \gamma\,R \approx \qty[per-mode = fraction]{2.44}{\meter\per\second\squared} $$
+
+\end{frame}
+
